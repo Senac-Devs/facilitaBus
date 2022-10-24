@@ -1,8 +1,14 @@
-.tituloPrincipal {
+
+.LOCALIZABUS{
+    display: flex;
     text-align: center;
+    color: green;
 }
 main{
     display: flex;
     justify-content: center;
-    background-color: black;
+}  
+.botao2{
+    display: flex;
+    justify-content: center;
 }
