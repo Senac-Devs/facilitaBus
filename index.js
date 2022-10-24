@@ -98,14 +98,14 @@ var controleLocal = L.control
     },
   })
   .addTo(map);
-// var c = new L.Control.Coordinates();
-// c.addTo(map);
-// map.on("click", function (e) {
-//   L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-// //   console.log(e.latlng.lat);
-// //   console.log(e.latlng.lng);
-//   c.setCoordinates(e);
-// });
+var c = new L.Control.Coordinates();
+c.addTo(map);
+map.on("click", function (e) {
+  L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+  console.log(e.latlng.lat);
+  console.log(e.latlng.lng);
+  c.setCoordinates(e);
+});
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution: "© OpenStreetMap",
