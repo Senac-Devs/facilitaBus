@@ -87,41 +87,49 @@ var textoLocal = L.control.locate({
         title: "Mostrar localização atual",
     },
 });
-let qPoint = 0;
+
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
-function updatePoint(e, qPoint) {
-    if (qPoint === 0) {
-        L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+function updatePoint(e) {
+    if (getQPoints() === 0) {
+        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map)
+        updateMarker(marker)
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
-        qPoint++;
-    } else if (qPoint === 1) {
-        L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+        updateQPoints();
+    } else if (getQPoints() === 1) {
+        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map)
+        updateMarker(marker)
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
-        qPoint++;
-    } else {
-        qPoint = 0;
+        updateQPoints();
+    }
+    else { 
+        resetQPoints();
+        map = clearMarkers(map)
     }
 }
 map.on("click", function (e) {
-    updatePoint(e, qPoint);
-    console.log(qPoint);
-    //   console.log(e.latlng.lat);
-    //   console.log(e.latlng.lng);
-    var pointList = [pointA, pointB];
-    
-    var firstpolyline = new L.Polyline(pointList, {
+    updatePoint(e);
+    if (getQPoints() !== 0) {
+        console.log([pointA, pointB]);
+        //   console.log(e.latlng.lat);
+        //   console.log(e.latlng.lng);
+        var pointList = [pointA, pointB];
+        
+        var firstpolyline = new L.Polyline(pointList, {
         color: "red",
         weight: 3,
         opacity: 0.5,
         smoothFactor: 1,
-    });
-    firstpolyline.addTo(map);
+        });
+        firstpolyline.addTo(map);
+    }
 });
 
 var controleLocal = L.control
