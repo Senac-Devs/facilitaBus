@@ -1,14 +1,28 @@
 
 .LOCALIZABUS{
-    display: flex;
     text-align: center;
-    color: green;
+    color: #9FC131;
+    background-color:#005C53;
+    padding: 10px;
+    height: 40px;
+    
 }
+.MAPA{
+    text-align: center;
+}
+
 main{
     display: flex;
     justify-content: center;
 }  
-.botao2{
+.botao{
     display: flex;
     justify-content: center;
+    background-color :#005C53;
+    width: 90;
+    color:#D6D58E;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #9FC131;
 }
