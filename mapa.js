@@ -87,7 +87,16 @@ var textoLocal = L.control.locate({
         title: "Mostrar localização atual",
     },
 });
-
+function createPath(map, L) {
+    const firstpolyline = new L.Polyline(returnPath(), {
+    color: "red",
+    weight: 6,
+    opacity: 1.0,
+    smoothFactor: 1,
+    });
+    firstpolyline.addTo(map);
+}
+createPath(map, L);
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
@@ -97,6 +106,7 @@ function updatePoint(e) {
         marker.addTo(map)
         updateMarker(marker)
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
+        console.log(pointA);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
