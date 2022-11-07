@@ -71,12 +71,12 @@ L.Control.Coordinates = L.Control.extend({
                 this.options.latitudeText +
                 ":</strong> " +
                 obj.latlng.lat.toFixed(this.options.precision).toString();
-                L.DomUtil.get(this._lng).innerHTML =
+            L.DomUtil.get(this._lng).innerHTML =
                 "<strong>" +
                 this.options.longitudeText +
                 ":</strong> " +
                 obj.latlng.lng.toFixed(this.options.precision).toString();
-            }
+        }
     },
 });
 var map = L.map("map").setView([-24.04497847821831, -52.37854166814854], 17);
@@ -87,41 +87,53 @@ var textoLocal = L.control.locate({
         title: "Mostrar localização atual",
     },
 });
-function createPath(map, L) {
-    const firstpolyline = new L.Polyline(returnPath(), {
-    color: "red",
-    weight: 6,
-    opacity: 1.0,
-    smoothFactor: 1,
+
+
+function createPath(map, L,caminho) {
+    const firstpolyline = new L.Polyline(caminho["path"],{
+        color: caminho["color"],
+        weight: 6,
+        opacity: 1.0,
+        smoothFactor: 1,
     });
     firstpolyline.addTo(map);
 }
-createPath(map, L);
+
+function createPaths(map,L) {
+    const caminhos = returnPaths();
+    Object.keys(caminhos).forEach((linha) => {
+    createPath(map,L,caminhos[linha])
+    });
+}
+
+createPaths(map, L);
+
+
+
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
 function updatePoint(e) {
     if (getQPoints() === 0) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
-        marker.addTo(map)
-        updateMarker(marker)
+        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map);
+        updateMarker(marker);
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         console.log(pointA);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
     } else if (getQPoints() === 1) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
-        marker.addTo(map)
-        updateMarker(marker)
+        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map);
+        updateMarker(marker);
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
-    }
-    else { 
+    } else {
         resetQPoints();
-        map = clearMarkers(map)
+        map = clearMarkers(map);
     }
 }
 map.on("click", function (e) {
@@ -131,12 +143,12 @@ map.on("click", function (e) {
         //   console.log(e.latlng.lat);
         //   console.log(e.latlng.lng);
         var pointList = [pointA, pointB];
-        
+
         var firstpolyline = new L.Polyline(pointList, {
-        color: "red",
-        weight: 3,
-        opacity: 0.5,
-        smoothFactor: 1,
+            color: "red",
+            weight: 3,
+            opacity: 0.5,
+            smoothFactor: 1,
         });
         firstpolyline.addTo(map);
     }
