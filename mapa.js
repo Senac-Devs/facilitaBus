@@ -88,6 +88,28 @@ var textoLocal = L.control.locate({
     },
 });
 
+
+function createPath(map, L,caminho) {
+    const firstpolyline = new L.Polyline(caminho["path"],{
+        color: caminho["color"],
+        weight: 6,
+        opacity: 1.0,
+        smoothFactor: 1,
+    });
+    firstpolyline.addTo(map);
+}
+
+function createPaths(map,L) {
+    const caminhos = returnPaths();
+    Object.keys(caminhos).forEach((linha) => {
+    createPath(map,L,caminhos[linha])
+    });
+}
+
+createPaths(map, L);
+
+
+
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
@@ -98,6 +120,7 @@ function updatePoint(e) {
         marker.addTo(map);
         updateMarker(marker);
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
+        console.log(pointA);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
