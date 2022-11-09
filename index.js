@@ -1,8 +1,10 @@
 let qPoint = 0;
-let markers = []
+let markers = [];
+let lines = [];
+let line;
 
-function updateQPoints() {
-    qPoint++;
+function setQPoints(value) {
+    qPoint = value;
 }
 function getQPoints() {
     return qPoint;
@@ -10,8 +12,19 @@ function getQPoints() {
 function resetQPoints() {
     qPoint = 0;
 }
+function updateLines(lines) {
+    lines.push(line)
+}
 function updateMarker(marker){
     markers.push(marker)
+}
+function getLengthMarker() {
+    return markers.length;
+}
+function popMarker(map) {
+    map.removeLayer(markers[markers.length - 1])
+    markers.pop()
+    return map;
 }
 function clearMarkers(map) {
     markers.forEach((e) => map.removeLayer(e))

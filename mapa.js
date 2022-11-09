@@ -100,28 +100,34 @@ createPath(map, L);
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
+function clearMap() {
+    resetQPoints();
+    map = clearMarkers(map)
+}
 function updatePoint(e) {
     if (getQPoints() === 0) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
+        const marker = new L.marker ([e.latlng.lat, e.latlng.lng], {
+            icon: thing("hello", "#5f93ed")
+        });
+        if(getLengthMarker() > 0) {
+            map = popMarker(map)
+        }
         marker.addTo(map)
         updateMarker(marker)
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         console.log(pointA);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
-        updateQPoints();
     } else if (getQPoints() === 1) {
         const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
+        if(getLengthMarker() > 1) {
+            map = popMarker(map)
+        }
         marker.addTo(map)
         updateMarker(marker)
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
-        updateQPoints();
-    }
-    else { 
-        resetQPoints();
-        map = clearMarkers(map)
     }
 }
 map.on("click", function (e) {
@@ -132,13 +138,15 @@ map.on("click", function (e) {
         //   console.log(e.latlng.lng);
         var pointList = [pointA, pointB];
         
-        var firstpolyline = new L.Polyline(pointList, {
+        line = new L.Polyline(pointList, {
         color: "red",
         weight: 3,
         opacity: 0.5,
         smoothFactor: 1,
         });
-        firstpolyline.addTo(map);
+        updateLines(line);
+        console.log(lines);
+        line.addTo(map);
     }
 });
 
