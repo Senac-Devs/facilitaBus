@@ -71,12 +71,12 @@ L.Control.Coordinates = L.Control.extend({
                 this.options.latitudeText +
                 ":</strong> " +
                 obj.latlng.lat.toFixed(this.options.precision).toString();
-                L.DomUtil.get(this._lng).innerHTML =
+            L.DomUtil.get(this._lng).innerHTML =
                 "<strong>" +
                 this.options.longitudeText +
                 ":</strong> " +
                 obj.latlng.lng.toFixed(this.options.precision).toString();
-            }
+        }
     },
 });
 var map = L.map("map").setView([-24.04497847821831, -52.37854166814854], 17);
@@ -91,27 +91,29 @@ var textoLocal = L.control.locate({
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
+let distaciaPontos;
 function updatePoint(e) {
     if (getQPoints() === 0) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
-        marker.addTo(map)
-        updateMarker(marker)
+        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map);
+        updateMarker(marker);
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
     } else if (getQPoints() === 1) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
-        marker.addTo(map)
-        updateMarker(marker)
+        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map);
+        updateMarker(marker);
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
-    }
-    else { 
+        distanciaPontos = calcDistKm(pointA, pointB);
+        console.log(distanciaPontos)
+    } else {
         resetQPoints();
-        map = clearMarkers(map)
+        map = clearMarkers(map);
     }
 }
 map.on("click", function (e) {
@@ -121,12 +123,12 @@ map.on("click", function (e) {
         //   console.log(e.latlng.lat);
         //   console.log(e.latlng.lng);
         var pointList = [pointA, pointB];
-        
+
         var firstpolyline = new L.Polyline(pointList, {
-        color: "red",
-        weight: 3,
-        opacity: 0.5,
-        smoothFactor: 1,
+            color: "red",
+            weight: 3,
+            opacity: 0.5,
+            smoothFactor: 1,
         });
         firstpolyline.addTo(map);
     }
@@ -148,6 +150,5 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap",
 }).addTo(map);
 
-// ARRUMAR LOOP
-console.log(pointA,pointB)
-console.log(Math.hypot(pointA,pointB))
+// FUNÇÃO PARA CALCULAR DISTÂNCIA ENTRE OS PONTOS
+
