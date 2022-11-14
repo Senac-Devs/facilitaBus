@@ -171,5 +171,3 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 // ARRUMAR LOOP
-console.log(pointA,pointB)
-console.log(Math.hypot(pointA,pointB))
