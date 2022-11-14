@@ -113,6 +113,7 @@ createPaths(map, L);
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
+let distaciaPontos;
 function updatePoint(e) {
     if (getQPoints() === 0) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
@@ -131,6 +132,8 @@ function updatePoint(e) {
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
+        distanciaPontos = calcDistKm(pointA, pointB);
+        console.log(distanciaPontos)
     } else {
         resetQPoints();
         map = clearMarkers(map);
@@ -170,6 +173,5 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap",
 }).addTo(map);
 
-// ARRUMAR LOOP
-console.log(pointA,pointB)
-console.log(Math.hypot(pointA,pointB))
+// FUNÇÃO PARA CALCULAR DISTÂNCIA ENTRE OS PONTOS
+
