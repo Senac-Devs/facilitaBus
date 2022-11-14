@@ -88,9 +88,8 @@ var textoLocal = L.control.locate({
     },
 });
 
-
-function createPath(map, L,caminho) {
-    const firstpolyline = new L.Polyline(caminho["path"],{
+function createPath(map, L, caminho) {
+    const firstpolyline = new L.Polyline(caminho["path"], {
         color: caminho["color"],
         weight: 6,
         opacity: 1.0,
@@ -99,20 +98,19 @@ function createPath(map, L,caminho) {
     firstpolyline.addTo(map);
 }
 
-function createPaths(map,L) {
+function createPaths(map, L) {
     const caminhos = returnPaths();
     Object.keys(caminhos).forEach((linha) => {
-    createPath(map,L,caminhos[linha])
+        createPath(map, L, caminhos[linha]);
     });
 }
 
 createPaths(map, L);
 
-
-
 var pointA;
 var pointB;
 var c = new L.Control.Coordinates();
+let distaciaPontos;
 function updatePoint(e) {
     if (getQPoints() === 0) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
@@ -131,6 +129,8 @@ function updatePoint(e) {
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
         updateQPoints();
+        distanciaPontos = calcDistKm(pointA, pointB);
+        console.log(distanciaPontos);
     } else {
         resetQPoints();
         map = clearMarkers(map);
@@ -171,3 +171,4 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 // ARRUMAR LOOP
+// FUNÇÃO PARA CALCULAR DISTÂNCIA ENTRE OS PONTOS
