@@ -1,4 +1,15 @@
-function localDistLin() {
-    Math.sqrt((pointA.lat - 24.0431) ** 2 + (pointA.lng - 52.3802) ** 2) * 100;
+//calcDistKm
+function encontraMaisProx(pointA,caminhos) {
+    const pontos = caminhos.length;
+    let pontoMaisProx;
+    let menorDistancia = 50000;
+
+    for (let i = 0; i < pontos; i++) {
+        distAtual = calcDistKm(pointA, caminhos[i]);
+        if (distAtual <= menorDistancia) {
+            menorDistancia = distAtual;
+            pontoMaisProx = caminhos[i];
+        }
+    }
+    return [pontoMaisProx, menorDistancia];
 }
-console.log(localDistLin);
