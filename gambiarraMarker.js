@@ -11,7 +11,7 @@ function thing(ct, color) {
         iconAnchor: [12, 25],
         labelAnchor: [-6, 0],
         popupAnchor: [0, -15],
-        html: `<span style="${markerHtmlStyles}" >M</span>`
+        html: `<span style="${markerHtmlStyles}" ></span>`
     })
 }
        
