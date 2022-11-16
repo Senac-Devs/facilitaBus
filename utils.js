@@ -9,3 +9,4 @@ function calcDistKm(pointA, pointB) {
         ) * 100;
     return distancia.toFixed(4);
 }
+marker.addTo(map);
