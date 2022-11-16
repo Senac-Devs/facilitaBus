@@ -110,7 +110,7 @@ createPaths(map, L);
 let pointA;
 let pointB;
 let c = new L.Control.Coordinates();
-let distaciaPontos;
+let distanciaPontos;
 function updatePoint(e) {
     if (getQPoints() === 0) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
@@ -119,7 +119,7 @@ function updatePoint(e) {
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         console.log(pointA);
         c.setCoordinates(e);
-        console.log(c.setCoordinates(e));
+        console.log(c.setCoordinates(e), getQPoints);
         updateQPoints();
         setLinesToPaths();
     } else if (getQPoints() === 1) {
@@ -128,7 +128,7 @@ function updatePoint(e) {
         updateMarker(marker);
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
-        console.log(c.setCoordinates(e));
+        console.log(c.setCoordinates(e), getQPoints);
         updateQPoints();
         distanciaPontos = calcDistKm(pointA, pointB);
         console.log(distanciaPontos);
@@ -173,16 +173,16 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap",
 }).addTo(map);
 function setLinesToPaths() {
-    let todosCamihos = returnPaths();
-    for (let i = 0; i < Object.keys(todosCamihos).length; i++) {
-        console.log(todosCamihos[Object.keys(todosCamihos)[i]]);
+    let todosCaminhos = returnPaths();
+    for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
+        console.log(todosCaminhos[Object.keys(todosCaminhos)[i]]);
         let [pontoMaisProx, menorDistancia] = encontraMaisProx(
             pointA,
-            todosCamihos[Object.keys(todosCamihos)[i]].path
+            todosCaminhos[Object.keys(todosCaminhos)[i]].path
         );
 
         let firstpolyline = new L.Polyline([pointA, pontoMaisProx], {
-            color: todosCamihos[Object.keys(todosCamihos)[i]].color,
+            color: todosCaminhos[Object.keys(todosCaminhos)[i]].color,
             weight: 3,
             opacity: 0.5,
             smoothFactor: 1,
@@ -190,6 +190,3 @@ function setLinesToPaths() {
         firstpolyline.addTo(map);
     }
 }
-
-// ARRUMAR LOOP
-// FUNÇÃO PARA CALCULAR DISTÂNCIA ENTRE OS PONTOS

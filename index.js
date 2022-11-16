@@ -10,6 +10,9 @@ function getQPoints() {
 function resetQPoints() {
     qPoint = 0;
 }
+function updateQPoints(){
+    qPoint++;
+}
 function updateMarker(marker) {
     markers.push(marker);
 }
