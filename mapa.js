@@ -12,9 +12,9 @@ L.Control.Coordinates = L.Control.extend({
     },
 
     onAdd: function (map) {
-        var className = "leaflet-control-coordinates";
-        var that = this;
-        var container = (this._container = L.DomUtil.create("div", className));
+        let className = "leaflet-control-coordinates";
+        let that = this;
+        let container = (this._container = L.DomUtil.create("div", className));
         this.visible = false;
 
         L.DomUtil.addClass(container, "hidden");
@@ -24,17 +24,17 @@ L.Control.Coordinates = L.Control.extend({
         this._addText(container, map);
 
         L.DomEvent.addListener(container, "click", function () {
-            var lat = L.DomUtil.get(that._lat);
-            var lng = L.DomUtil.get(that._lng);
-            var latTextLen = this.options.latitudeText.length + 1;
-            var lngTextLen = this.options.longitudeText.length + 1;
-            var latTextIndex =
+            let lat = L.DomUtil.get(that._lat);
+            let lng = L.DomUtil.get(that._lng);
+            let latTextLen = this.options.latitudeText.length + 1;
+            let lngTextLen = this.options.longitudeText.length + 1;
+            let latTextIndex =
                 lat.textContent.indexOf(this.options.latitudeText) + latTextLen;
-            var lngTextIndex =
+            let lngTextIndex =
                 lng.textContent.indexOf(this.options.longitudeText) +
                 lngTextLen;
-            var latCoordinate = lat.textContent.substr(latTextIndex);
-            var lngCoordinate = lng.textContent.substr(lngTextIndex);
+            let latCoordinate = lat.textContent.substr(latTextIndex);
+            let lngCoordinate = lng.textContent.substr(lngTextIndex);
 
             window.prompt(
                 this.options.promptText,
@@ -71,63 +71,70 @@ L.Control.Coordinates = L.Control.extend({
                 this.options.latitudeText +
                 ":</strong> " +
                 obj.latlng.lat.toFixed(this.options.precision).toString();
-                L.DomUtil.get(this._lng).innerHTML =
+            L.DomUtil.get(this._lng).innerHTML =
                 "<strong>" +
                 this.options.longitudeText +
                 ":</strong> " +
                 obj.latlng.lng.toFixed(this.options.precision).toString();
-            }
+        }
     },
 });
-var map = L.map("map").setView([-24.04497847821831, -52.37854166814854], 17);
-var marker = L.marker([-24.04497847821831, -52.37854166814854]).addTo(map);
+let map = L.map("map").setView([-24.04497847821831, -52.37854166814854], 17);
+let marker = L.marker([-24.04497847821831, -52.37854166814854]).addTo(map);
 marker.bindPopup("<b>Terminal Urbano Central</b>").openPopup();
-var textoLocal = L.control.locate({
+let textoLocal = L.control.locate({
     strings: {
         title: "Mostrar localização atual",
     },
 });
-function createPath(map, L) {
-    const firstpolyline = new L.Polyline(returnPath(), {
-    color: "red",
-    weight: 6,
-    opacity: 1.0,
-    smoothFactor: 1,
+
+function createPath(map, L, caminho) {
+    const firstpolyline = new L.Polyline(caminho["path"], {
+        color: caminho["color"],
+        weight: 6,
+        opacity: 1.0,
+        smoothFactor: 1,
     });
     firstpolyline.addTo(map);
 }
-createPath(map, L);
-var pointA;
-var pointB;
-var c = new L.Control.Coordinates();
-function clearMap() {
-    resetQPoints();
-    map = clearMarkers(map)
+
+function createPaths(map, L) {
+    const caminhos = returnPaths();
+    Object.keys(caminhos).forEach((linha) => {
+        createPath(map, L, caminhos[linha]);
+    });
 }
+
+createPaths(map, L);
+
+let pointA;
+let pointB;
+let c = new L.Control.Coordinates();
+let distaciaPontos;
 function updatePoint(e) {
     if (getQPoints() === 0) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng], {
-            icon: thing("hello", "#5f93ed")
-        });
-        if(getLengthMarker() > 0) {
-            map = popMarker(map)
-        }
-        marker.addTo(map)
-        updateMarker(marker)
+        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map);
+        updateMarker(marker);
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         console.log(pointA);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
+        updateQPoints();
+        setLinesToPaths();
     } else if (getQPoints() === 1) {
-        const marker = new L.marker ([e.latlng.lat, e.latlng.lng]);
-        if(getLengthMarker() > 1) {
-            map = popMarker(map)
-        }
-        marker.addTo(map)
-        updateMarker(marker)
+        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        marker.addTo(map);
+        updateMarker(marker);
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e));
+        updateQPoints();
+        distanciaPontos = calcDistKm(pointA, pointB);
+        console.log(distanciaPontos);
+    } else {
+        resetQPoints();
+        map = clearMarkers(map);
     }
 }
 map.on("click", function (e) {
@@ -136,13 +143,13 @@ map.on("click", function (e) {
         console.log([pointA, pointB]);
         //   console.log(e.latlng.lat);
         //   console.log(e.latlng.lng);
-        var pointList = [pointA, pointB];
-        
-        line = new L.Polyline(pointList, {
-        color: "red",
-        weight: 3,
-        opacity: 0.5,
-        smoothFactor: 1,
+        let pointList = [pointA, pointB];
+
+        let firstpolyline = new L.Polyline(pointList, {
+            color: "red",
+            weight: 3,
+            opacity: 0.5,
+            smoothFactor: 1,
         });
         updateLines(line);
         console.log(lines);
@@ -150,7 +157,7 @@ map.on("click", function (e) {
     }
 });
 
-var controleLocal = L.control
+let controleLocal = L.control
     .locate({
         locateOptions: {
             enableHighAccuracy: true,
@@ -165,5 +172,24 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: "© OpenStreetMap",
 }).addTo(map);
+function setLinesToPaths() {
+    let todosCamihos = returnPaths();
+    for (let i = 0; i < Object.keys(todosCamihos).length; i++) {
+        console.log(todosCamihos[Object.keys(todosCamihos)[i]]);
+        let [pontoMaisProx, menorDistancia] = encontraMaisProx(
+            pointA,
+            todosCamihos[Object.keys(todosCamihos)[i]].path
+        );
+
+        let firstpolyline = new L.Polyline([pointA, pontoMaisProx], {
+            color: todosCamihos[Object.keys(todosCamihos)[i]].color,
+            weight: 3,
+            opacity: 0.5,
+            smoothFactor: 1,
+        });
+        firstpolyline.addTo(map);
+    }
+}
 
 // ARRUMAR LOOP
+// FUNÇÃO PARA CALCULAR DISTÂNCIA ENTRE OS PONTOS
