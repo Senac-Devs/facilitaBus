@@ -14,4 +14,19 @@
 main{
     display: flex;
     justify-content: center;
+    flex-direction: row;
+}
+.botao{
+    display: flex;
+    justify-content: center;
+    background-color :#005C53;
+    width: 90;
+    color:#D6D58E;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #9FC131;
+}
+.distancias{
+    background-color :#005C53;
 }
