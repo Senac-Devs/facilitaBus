@@ -174,21 +174,23 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap",
 }).addTo(map);
 function setLinesToPaths() {
-    let todosCaminhos = returnPaths();
-    for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
-        console.log(todosCaminhos[Object.keys(todosCaminhos)[i]]);
+    let todosCamihos = returnPaths();
+    document.getElementById("distancias").innerHTML=""
+    for (let i = 0; i < Object.keys(todosCamihos).length; i++) {
+        console.log(todosCamihos[Object.keys(todosCamihos)[i]]);
         let [pontoMaisProx, menorDistancia] = encontraMaisProx(
             pointA,
             todosCaminhos[Object.keys(todosCaminhos)[i]].path
         );
-
+        let color = todosCamihos[Object.keys(todosCamihos)[i]].color;
         let firstpolyline = new L.Polyline([pointA, pontoMaisProx], {
-            color: todosCaminhos[Object.keys(todosCaminhos)[i]].color,
+            color: color,
             weight: 3,
             opacity: 0.5,
             smoothFactor: 1,
         });
         updateLines(firstpolyline);
         firstpolyline.addTo(map);
+        document.getElementById("distancias").innerHTML+=`<p> ${color}: ${menorDistancia} km </p>`
     }
 }
