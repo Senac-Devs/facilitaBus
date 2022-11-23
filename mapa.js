@@ -134,6 +134,7 @@ function updatePoint(e) {
         console.log(distanciaPontos);
     } else {
         resetQPoints();
+        map = clearLines(map);
         map = clearMarkers(map);
     }
 }
@@ -145,7 +146,7 @@ map.on("click", function (e) {
         //   console.log(e.latlng.lng);
         let pointList = [pointA, pointB];
 
-        let firstpolyline = new L.Polyline(pointList, {
+        let line = new L.Polyline(pointList, {
             color: "red",
             weight: 3,
             opacity: 0.5,
@@ -187,6 +188,7 @@ function setLinesToPaths() {
             opacity: 0.5,
             smoothFactor: 1,
         });
+        updateLines(firstpolyline);
         firstpolyline.addTo(map);
     }
 }

@@ -1,6 +1,15 @@
 let qPoint = 0;
 let markers = [];
+let lines = [];
 
+function updateLines(line) {
+    lines.push(line);
+}
+function clearLines(map) {
+    lines.forEach((e) => map.removeLayer(e));
+    lines = [];
+    return map;
+}
 function setQPoints(value) {
     qPoint = value;
 }
@@ -26,6 +35,7 @@ function popMarker(map) {
 }
 function clearMarkers(map) {
     markers.forEach((e) => map.removeLayer(e));
+    markers = [];
     return map;
 }
 function returnPaths() {
