@@ -95,6 +95,7 @@ function createPath(map, L, caminho) {
         opacity: 1.0,
         smoothFactor: 1,
     });
+    updateLines(firstpolyline);
     firstpolyline.addTo(map);
 }
 
@@ -112,35 +113,29 @@ let pointB;
 let c = new L.Control.Coordinates();
 let distanciaPontos;
 function updatePoint(e) {
-    if (getQPoints() === 0) {
+    if (setQPoints() === 0) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
         marker.addTo(map);
-        updateMarker(marker);
+        setInitialMarker(marker);
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         console.log(pointA);
         c.setCoordinates(e);
-        console.log(c.setCoordinates(e), getQPoints);
-        updateQPoints();
+        console.log(c.setCoordinates(e), setQPoints);
         setLinesToPaths();
-    } else if (getQPoints() === 1) {
+    } else if (setQPoints() === 1) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
         marker.addTo(map);
-        updateMarker(marker);
+        setDepartureMarker(marker)
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
-        console.log(c.setCoordinates(e), getQPoints);
-        updateQPoints();
+        console.log(c.setCoordinates(e), setQPoints);
         distanciaPontos = calcDistKm(pointA, pointB);
         console.log(distanciaPontos);
-    } else {
-        resetQPoints();
-        map = clearLines(map);
-        map = clearMarkers(map);
     }
 }
 map.on("click", function (e) {
     updatePoint(e);
-    if (getQPoints() !== 0) {
+    if (setQPoints() !== 0) {
         console.log([pointA, pointB]);
         //   console.log(e.latlng.lat);
         //   console.log(e.latlng.lng);
@@ -149,7 +144,7 @@ map.on("click", function (e) {
         let line = new L.Polyline(pointList, {
             color: "red",
             weight: 3,
-            opacity: 0.5,
+            opacity: 1,
             smoothFactor: 1,
         });
         updateLines(line);
@@ -174,15 +169,15 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap",
 }).addTo(map);
 function setLinesToPaths() {
-    let todosCamihos = returnPaths();
+    let todosCaminhos = returnPaths();
     document.getElementById("distancias").innerHTML=""
-    for (let i = 0; i < Object.keys(todosCamihos).length; i++) {
-        console.log(todosCamihos[Object.keys(todosCamihos)[i]]);
+    for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
+        console.log(todosCaminhos[Object.keys(todosCaminhos)[i]]);
         let [pontoMaisProx, menorDistancia] = encontraMaisProx(
             pointA,
             todosCaminhos[Object.keys(todosCaminhos)[i]].path
         );
-        let color = todosCamihos[Object.keys(todosCamihos)[i]].color;
+        let color = todosCaminhos[Object.keys(todosCaminhos)[i]].color;
         let firstpolyline = new L.Polyline([pointA, pontoMaisProx], {
             color: color,
             weight: 3,
