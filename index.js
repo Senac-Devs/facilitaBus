@@ -1,22 +1,39 @@
 let qPoint = 0;
-let markers = [];
+let initialMarker;
+let departureMarker;
+let lines = [];
 
-function updateQPoints() {
-    qPoint++;
+function updateLines(line) {
+    lines.push(line);
 }
-function getQPoints() {
-    return qPoint;
-}
-function resetQPoints() {
-    qPoint = 0;
-}
-function updateMarker(marker) {
-    markers.push(marker);
-}
-function clearMarkers(map) {
-    markers.forEach((e) => map.removeLayer(e));
+function clearLines(map) {
+    lines.forEach((e) => map.removeLayer(e));
+    lines = [];
     return map;
 }
+function setQPoints(value,map) {
+    qPoint = value;
+    return map;
+}
+function setInitialMarker(marker) {
+    initialMarker = marker;
+}
+function setDepartureMarker(marker) {
+    departureMarker = marker;
+}
+function getLengthMarker() {
+    return markers.length;
+}
+// function popMarker(map) {
+//     map.removeLayer(markers[markers.length - 1])
+//     markers.pop()
+//     return map;
+// }
+// function clearMarkers(map) {
+//     markers.forEach((e) => map.removeLayer(e));
+//     markers = [];
+//     return map;
+// }
 function returnPaths() {
     const caminhos = {
         linhaA: {
@@ -154,3 +171,5 @@ function returnPaths() {
 
     return caminhos;
 }
+
+// console.log(L.LocateControl)
