@@ -1,5 +1,5 @@
 
-.LOCALIZABUS{
+.FACILITABUS{
     text-align: center;
     color: #9FC131;
     background-color:#005C53;
@@ -28,5 +28,14 @@ main{
     border: 2px solid #9FC131;
 }
 .distancias{
+    color:#9FC131;
+}
+
+.fraseMassa{
+    height: 50px;
     background-color :#005C53;
+    color: #9FC131;
+    text-align: center;
+    width: auto;
+    border:2px solid #9FC131;
 }
