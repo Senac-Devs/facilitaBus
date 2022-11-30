@@ -95,7 +95,7 @@ function createPath(map, L, caminho) {
         opacity: 1.0,
         smoothFactor: 1,
     });
-    updateLines(firstpolyline);
+    // updateLines(firstpolyline);
     firstpolyline.addTo(map);
 }
 
@@ -113,19 +113,21 @@ let pointB;
 let c = new L.Control.Coordinates();
 let distanciaPontos;
 function updatePoint(e) {
-    if (setQPoints() === 0) {
+    if (qPoint === 0) {
+        clearLines(map);
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
         marker.addTo(map);
-        setInitialMarker(marker);
+        setInitialMarker(marker, map);
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
         console.log(pointA);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e), setQPoints);
         setLinesToPaths();
-    } else if (setQPoints() === 1) {
+    } else if (qPoint === 1) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
         marker.addTo(map);
-        setDepartureMarker(marker)
+        popMarker(map);
+        setArriveMarker(marker);
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
         c.setCoordinates(e);
         console.log(c.setCoordinates(e), setQPoints);
@@ -135,7 +137,7 @@ function updatePoint(e) {
 }
 map.on("click", function (e) {
     updatePoint(e);
-    if (setQPoints() !== 0) {
+    if (getQPoints() !== 0) {
         console.log([pointA, pointB]);
         //   console.log(e.latlng.lat);
         //   console.log(e.latlng.lng);
@@ -147,7 +149,7 @@ map.on("click", function (e) {
             opacity: 1,
             smoothFactor: 1,
         });
-        updateLines(line);
+        // updateLines(line);
         console.log(lines);
         line.addTo(map);
     }
@@ -170,7 +172,7 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 function setLinesToPaths() {
     let todosCaminhos = returnPaths();
-    document.getElementById("distancias").innerHTML=""
+    document.getElementById("distancias").innerHTML = "";
     for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
         console.log(todosCaminhos[Object.keys(todosCaminhos)[i]]);
         let [pontoMaisProx, menorDistancia] = encontraMaisProx(
@@ -186,6 +188,8 @@ function setLinesToPaths() {
         });
         updateLines(firstpolyline);
         firstpolyline.addTo(map);
-        document.getElementById("distancias").innerHTML+=`<p> ${color}: ${menorDistancia} km </p>`
+        document.getElementById(
+            "distancias"
+        ).innerHTML += `<p> ${color}: ${menorDistancia} km </p>`;
     }
 }
