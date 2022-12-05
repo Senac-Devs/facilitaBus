@@ -11,7 +11,10 @@ function clearLines(map) {
     lines = [];
     return map;
 }
-function setQPoints(value,map) {
+function getQPoints() {
+    return qPoint;
+}
+function setQPoints(value, map) {
     qPoint = value;
     return map;
 }

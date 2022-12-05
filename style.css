@@ -1,4 +1,9 @@
 
+#map { 
+    height: 500px;
+    width: 750px;
+}
+
 .FACILITABUS{
     text-align: center;
     color: #9FC131;
