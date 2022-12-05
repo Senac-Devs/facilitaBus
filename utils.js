@@ -1,3 +1,43 @@
+let qPoint = 0;
+let initialMarker;
+let departureMarker;
+let lines = [];
+
+function updateLines(line) {
+    lines.push(line);
+}
+function clearLines(map) {
+    lines.forEach((e) => map.removeLayer(e));
+    lines = [];
+    return map;
+}
+function getQPoints() {
+    return qPoint;
+}
+function setQPoints(value) {
+    qPoint = value;
+    updateButton()
+}
+function setInitialMarker(marker) {
+    initialMarker = marker;
+}
+function setDepartureMarker(marker) {
+    departureMarker = marker;
+}
+function getLengthMarker() {
+    return markers.length;
+}
+// function popMarker(map) {
+//     map.removeLayer(markers[markers.length - 1])
+//     markers.pop()
+//     return map;
+// }
+// function clearMarkers(map) {
+//     markers.forEach((e) => map.removeLayer(e));
+//     markers = [];
+//     return map;
+// }
+
 function calcDistKm(pointA, pointB) {
     const distancia =
         Math.sqrt(
@@ -39,7 +79,6 @@ function createPaths(map, L) {
         createPath(map, L, caminhos[linha]);
     });
 }
-
 
 function updatePoint(e) {
     let pointA;

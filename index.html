@@ -20,14 +20,15 @@
             <h3 class="MAPA">
                 MAPA DA CIDADE:
             </h3>    
-            <button class="botao" onclick="setQPoints(0)" type="submit">Marcar localização atual</button>
-            <button class="botao" onclick="setQPoints(1)" type="submit">Marcar ponto de chegada</button> 
+            <button class="botao" id="atual" onclick="setQPoints(0)" type="submit">Marcar localização atual</button>
+            <button class="botao" id="destino" onclick="setQPoints(1)" type="submit">Marcar ponto de chegada</button> 
         </header>
         <main>
             <div id="distancias"> 
             </div>
             <div id="map"></div>
             <script src="index.js"></script>
+            <script src="caminhos.js"></script>
             <script src="utils.js"></script>
             <script src="mapa.js"></script>
             
