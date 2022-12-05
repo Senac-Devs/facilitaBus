@@ -20,20 +20,23 @@
             <h3 class="MAPA">
                 MAPA DA CIDADE:
             </h3>    
-            <button class="botao" id="atual" onclick="setQPoints(0)" type="submit">Marcar localização atual</button>
-            <button class="botao" id="destino" onclick="setQPoints(1)" type="submit">Marcar ponto de chegada</button> 
+            
         </header>
         <main>
-            <div id="distancias"> 
+            <div id="distancias" class="main-cards"> 
             </div>
-            <div id="map"></div>
+            <div id="map" class="main-cards"></div>
+            <div id="botoes" class="main-cards">
+                <button class="botao" id="atual" onclick="setQPoints(0)" type="submit">Marcar localização atual</button>
+            <button class="botao" id="destino" onclick="setQPoints(1)" type="submit">Marcar ponto de chegada</button> 
+            </div>
             <script src="index.js"></script>
             <script src="caminhos.js"></script>
             <script src="utils.js"></script>
             <script src="mapa.js"></script>
             
         </main>
-        <footer>
+        <footer id="footer">
             <h3 class="fraseMassa">
                 O melhor aplicativo entre você e seu destino!
             </h3>

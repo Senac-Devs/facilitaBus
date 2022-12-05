@@ -5,10 +5,20 @@
 
 
 #map { 
-    height: 500px;
+    height: 400px;
     width: 750px;
 }
 
+#footer {
+    padding-top: 10px;
+    padding-bottom: 0px;
+    position:fixed;
+    bottom:0;
+    width:100%;
+}
+.main-cards{
+    margin: 30px;
+}
 .FACILITABUS{
     text-align: center;
     color: #9FC131;

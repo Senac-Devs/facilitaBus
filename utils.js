@@ -18,8 +18,13 @@ function setQPoints(value) {
     qPoint = value;
     updateButton()
 }
-function setInitialMarker(marker) {
-    initialMarker = marker;
+function setInitialMarker(map, marker) {
+    if (initialMarker === undefined){
+        initialMarker = marker;
+    } else{
+        map.removeLayer(initialMarker)
+        initialMarker = marker;
+    }
 }
 function setDepartureMarker(marker) {
     departureMarker = marker;
@@ -69,7 +74,6 @@ function createPath(map, L, caminho) {
         opacity: 1.0,
         smoothFactor: 1,
     });
-    updateLines(firstpolyline);
     firstpolyline.addTo(map);
 }
 
@@ -84,14 +88,21 @@ function updatePoint(e) {
     let pointA;
     let pointB;
     if (getQPoints() === 0) {
+        // criar o marcador
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        // Limpa o marcador antigo e salva o novo
+        setInitialMarker(map, marker);
+        // Adciona o marcador ao mapa
         marker.addTo(map);
-        setInitialMarker(marker);
+        // Pega coordenadas do ponto
         pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
-        console.log(pointA);
+        // Adiciona ao mapa
         c.setCoordinates(e);
-        console.log(c.setCoordinates(e), getQPoints());
+        // Limpa linhas antigas
+        clearLines(map);
+        // Calcula novas distâncias e linhas
         setLinesToPaths(pointA);
+
     } else if (getQPoints() === 1) {
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
         marker.addTo(map);
@@ -110,7 +121,6 @@ function setLinesToPaths(point) {
     let todosCaminhos = returnPaths();
     document.getElementById("distancias").innerHTML=""
     for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
-        console.log(todosCaminhos[Object.keys(todosCaminhos)[i]]);
         let [pontoMaisProx, menorDistancia] = encontraMaisProx(
             point,
             todosCaminhos[Object.keys(todosCaminhos)[i]].path
@@ -127,3 +137,4 @@ function setLinesToPaths(point) {
         document.getElementById("distancias").innerHTML+=`<p> ${color}: ${menorDistancia} km </p>`
     }
 }
+

@@ -79,6 +79,7 @@ L.Control.Coordinates = L.Control.extend({
         }
     },
 });
+
 let map = L.map("map").setView([-24.04497847821831, -52.37854166814854], 17);
 let marker = L.marker([-24.04497847821831, -52.37854166814854]).addTo(map);
 marker.bindPopup("<b>Terminal Urbano Central</b>").openPopup();
@@ -90,27 +91,8 @@ let textoLocal = L.control.locate({
 
 createPaths(map, L);
 
-let c = new L.Control.Coordinates();
-let distanciaPontos;
-
 map.on("click", function (e) {
-    const [pointA, pointB] = updatePoint(e);
-    if (getQPoints() !== 0) {
-        console.log([pointA, pointB]);
-        //   console.log(e.latlng.lat);
-        //   console.log(e.latlng.lng);
-        let pointList = [pointA, pointB];
-
-        let line = new L.Polyline(pointList, {
-            color: "red",
-            weight: 3,
-            opacity: 1,
-            smoothFactor: 1,
-        });
-        updateLines(line);
-        console.log(lines);
-        line.addTo(map);
-    }
+    updatePoint(e);
 });
 
 let controleLocal = L.control
@@ -121,10 +103,13 @@ let controleLocal = L.control
         },
     })
     .addTo(map);
+
+let c = new L.Control.Coordinates()
 c.addTo(map);
+
 marker.on("click");
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
-    attribution: "© OpenStreetMap",
+    attribution: "© OpenStreetMap | SENAC Paraná",
 }).addTo(map);
