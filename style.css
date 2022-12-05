@@ -1,4 +1,24 @@
+:root {
+    --color-button-selected: #c4fbf6;
+    --color-button-deselected: #005C53;
+}
 
+
+#map { 
+    height: 400px;
+    width: 750px;
+}
+
+#footer {
+    padding-top: 10px;
+    padding-bottom: 0px;
+    position:fixed;
+    bottom:0;
+    width:100%;
+}
+.main-cards{
+    margin: 30px;
+}
 .FACILITABUS{
     text-align: center;
     color: #9FC131;
@@ -19,7 +39,7 @@ main{
 .botao{
     display: flex;
     justify-content: center;
-    background-color :#005C53;
+    background-color :var(--color-button-deselected);
     width: 90;
     color:#D6D58E;
     border-radius: 5px;

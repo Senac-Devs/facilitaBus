@@ -79,6 +79,7 @@ L.Control.Coordinates = L.Control.extend({
         }
     },
 });
+
 let map = L.map("map").setView([-24.04497847821831, -52.37854166814854], 17);
 let marker = L.marker([-24.04497847821831, -52.37854166814854]).addTo(map);
 marker.bindPopup("<b>Terminal Urbano Central</b>").openPopup();
@@ -88,69 +89,10 @@ let textoLocal = L.control.locate({
     },
 });
 
-function createPath(map, L, caminho) {
-    const firstpolyline = new L.Polyline(caminho["path"], {
-        color: caminho["color"],
-        weight: 6,
-        opacity: 1.0,
-        smoothFactor: 1,
-    });
-    updateLines(firstpolyline);
-    firstpolyline.addTo(map);
-}
-
-function createPaths(map, L) {
-    const caminhos = returnPaths();
-    Object.keys(caminhos).forEach((linha) => {
-        createPath(map, L, caminhos[linha]);
-    });
-}
-
 createPaths(map, L);
 
-let pointA;
-let pointB;
-let c = new L.Control.Coordinates();
-let distanciaPontos;
-function updatePoint(e) {
-    if (setQPoints() === 0) {
-        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
-        marker.addTo(map);
-        setInitialMarker(marker);
-        pointA = new L.LatLng(e.latlng.lat, e.latlng.lng);
-        console.log(pointA);
-        c.setCoordinates(e);
-        console.log(c.setCoordinates(e), setQPoints);
-        setLinesToPaths();
-    } else if (setQPoints() === 1) {
-        const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
-        marker.addTo(map);
-        setDepartureMarker(marker)
-        pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
-        c.setCoordinates(e);
-        console.log(c.setCoordinates(e), setQPoints);
-        distanciaPontos = calcDistKm(pointA, pointB);
-        console.log(distanciaPontos);
-    }
-}
 map.on("click", function (e) {
     updatePoint(e);
-    if (setQPoints() !== 0) {
-        console.log([pointA, pointB]);
-        //   console.log(e.latlng.lat);
-        //   console.log(e.latlng.lng);
-        let pointList = [pointA, pointB];
-
-        let line = new L.Polyline(pointList, {
-            color: "red",
-            weight: 3,
-            opacity: 1,
-            smoothFactor: 1,
-        });
-        updateLines(line);
-        console.log(lines);
-        line.addTo(map);
-    }
 });
 
 let controleLocal = L.control
@@ -161,31 +103,13 @@ let controleLocal = L.control
         },
     })
     .addTo(map);
+
+let c = new L.Control.Coordinates()
 c.addTo(map);
+
 marker.on("click");
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
-    attribution: "© OpenStreetMap",
+    attribution: "© OpenStreetMap | SENAC Paraná",
 }).addTo(map);
-function setLinesToPaths() {
-    let todosCaminhos = returnPaths();
-    document.getElementById("distancias").innerHTML=""
-    for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
-        console.log(todosCaminhos[Object.keys(todosCaminhos)[i]]);
-        let [pontoMaisProx, menorDistancia] = encontraMaisProx(
-            pointA,
-            todosCaminhos[Object.keys(todosCaminhos)[i]].path
-        );
-        let color = todosCaminhos[Object.keys(todosCaminhos)[i]].color;
-        let firstpolyline = new L.Polyline([pointA, pontoMaisProx], {
-            color: color,
-            weight: 3,
-            opacity: 0.5,
-            smoothFactor: 1,
-        });
-        updateLines(firstpolyline);
-        firstpolyline.addTo(map);
-        document.getElementById("distancias").innerHTML+=`<p> ${color}: ${menorDistancia} km </p>`
-    }
-}
