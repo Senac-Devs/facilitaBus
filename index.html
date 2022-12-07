@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="pt-BR">
     <head>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
@@ -14,32 +14,32 @@
     </head>
     <body>
         <header>
-            <style>
-                #map { 
-                    height: 500px;
-                    width: 750px;
-                }
-                </style>
-            <h1 class = "LOCALIZABUS"> 
-                LOCALIZABUS
+            <h1 class="FACILITABUS"> 
+                FACILITABUS
             </h1>
-            <h3 class ="MAPA">
+            <h3 class="MAPA">
                 MAPA DA CIDADE:
-            </h3>    
-            <button class="botao" id="departure" onclick="setQPoints(0)" type="submit">Marcar localização atual</button>
-            <button class="botao" id="arrive" onclick="setQPoints(1)" type="submit">Marcar ponto de chegada</button> 
+            </h3>
         </header>
         <main>
-            <div id="distancias"> 
+            <div id="distancias" class="main-cards"> 
             </div>
-            <div id="map"></div>
+            <div id="map" class="main-cards"></div>
+            <div id="botoes" class="main-cards">
+                <button class="botao" id="atual" onclick="setQPoints(0)" type="submit">Marcar localização atual</button>
+            <button class="botao" id="destino" onclick="setQPoints(1)" type="submit">Marcar ponto de chegada</button> 
+            </div>
             <script src="index.js"></script>
-            <script src="mapa.js"></script>
-            <script src="gambiarraMarker.js"></script>
+            <script src="caminhos.js"></script>
             <script src="utils.js"></script>
-            <script src="distancias.js"></script>
+            <script src="mapa.js"></script>
             
         </main>
+        <footer id="footer">
+            <h3 class="fraseMassa">
+                O melhor aplicativo entre você e seu destino!
+            </h3>
+        </footer>
     </body>    
 </html>
  
