@@ -28,6 +28,8 @@ function returnPaths() {
                 { lat: -24.0024, lng: -52.3528 },
             ],
             color: "red",
+            name:"PARQUE INDUSTRIAL / SESI / JD. ANA ROSA",
+            number: 1,
         },
         linhaB: {
             path: [
@@ -49,6 +51,8 @@ function returnPaths() {
                 {lat: -24.0518 ,lng: -52.3856}
             ],
             color: "green",
+            name: "RODOVIÁRIA / RUA DAS PALMEIRAS / PARQUE VERDE / JD. IPANEMA" ,
+            number: 2 ,
         },
         linhaC: {
             path: [
@@ -69,6 +73,8 @@ function returnPaths() {
                 {lat: -24.0481, lng: -52.3756}
             ],
             color: "blue",
+            name: "JD. APARECIDA / JD. SANTA CRUZ / JD. BATL / CAMPUS INTEGRADO",
+            number: 3 ,
         },
         linhaD: { path: [
             { lat: -24.0447, lng: -52.3787 },
@@ -77,7 +83,10 @@ function returnPaths() {
             {lat: -24.0379 ,lng: -52.3870},
             {lat: -24.0263 ,lng: -52.4020}
 
-        ], color: "orange" },
+        ], color: "orange",
+        name: "JD. MODELO / JD. ESPERANÇA / CONJ. MILTON DE PAULA / CONJ. JOSÉ RICHA" ,
+        number: 4 ,
+        },
         linhaE:{path:[
             {lat: -24.0443 ,lng: -52.3789},
             {lat: -24.0372, lng: -52.3694},
@@ -87,7 +96,9 @@ function returnPaths() {
             {lat: -24.0011 ,lng: -52.3595},
 
         ],
-        color:"purple"
+            color:"purple",
+            name: "DETRAN / DIAMANTE AZUL / JD. TROPICLA I E II / CONJ. AVELINO PIACENTINI / JD. SILVANA" ,
+            number: 5 ,
         },
         linhaF:{path:[
             {lat: -24.0447 ,lng: -52.3787},
@@ -102,7 +113,11 @@ function returnPaths() {
            {lat: -24.0267 ,lng: -52.3800},
           {lat: -24.0298 ,lng: -52.3768},
 
-        ],color:"yellow"},
+        ],
+        color:"yellow",
+        name: "JD. ALBUQUERQUE / CONJ. PARIGOT DE SOUZA / JD. PAULISTA / JD. AEROPORO / JD. CONDOR" ,
+        number: 6 ,
+    },
       linhaG:{path:[
         {lat: -24.0444 ,lng: -52.3790},
         {lat: -24.0509, lng: -52.3872},
@@ -115,7 +130,10 @@ function returnPaths() {
         {lat: -24.0473 ,lng: -52.3949},
         {lat: -24.0468 ,lng: -52.3938},
         {lat: -24.0509 ,lng: -52.3871},
-      ],color:"red"},
+      ],color:"red",
+        name: "JD. SANTA NILCE / JD. CIDADE NOVA / CONJ. FORTUNATO PERDONCINI" ,
+        number: 7 ,
+    },
       linhaH:{path:[
         {lat: -24.0450 ,lon: -52.3784},
         {lat: -24.0470 ,lng: -52.3768},
@@ -130,7 +148,10 @@ function returnPaths() {
         {lat: -24.0530 ,lon: -52.3560},
         {lat: -24.0484 ,lon: -52.3584}
 
-      ],color:"orange"}
+      ],color:"orange",
+        name: "VILA URUPÊS / JD. CIDADE ALTA I E II / JD. ARNALDO BRONZEL" ,
+        number: 8 ,
+    }
     };
 
     return caminhos;
