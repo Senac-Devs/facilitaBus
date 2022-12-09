@@ -1,14 +1,24 @@
 let qPoint = 0;
-let initialMarker;
 let departureMarker;
+let arriveMarker;
 let lines = [];
+let arriveLines = [];
+let departureLines = [];
 
-function updateLines(line) {
-    lines.push(line);
+function updateDepartureLines(line) {
+    departureLines.push(line);
 }
-function clearLines(map) {
-    lines.forEach((e) => map.removeLayer(e));
-    lines = [];
+function updateArriveLines(line) {
+    arriveLines.push(line);
+}
+function clearArriveLines(map) {
+    arriveLines.forEach((e) => map.removeLayer(e));
+    arriveLines = [];
+    return map;
+}
+function clearDepartureLines(map) {
+    departureLines.forEach((e) => map.removeLayer(e));
+    departureLines = [];
     return map;
 }
 function getQPoints() {
@@ -16,18 +26,23 @@ function getQPoints() {
 }
 function setQPoints(value) {
     qPoint = value;
-    updateButton()
+    updateButton();
 }
-function setInitialMarker(map, marker) {
-    if (initialMarker === undefined){
-        initialMarker = marker;
-    } else{
-        map.removeLayer(initialMarker)
-        initialMarker = marker;
+function setDepartureMarker(map, marker) {
+    if (departureMarker === undefined) {
+        departureMarker = marker;
+    } else {
+        map.removeLayer(departureMarker);
+        departureMarker = marker;
     }
 }
-function setDepartureMarker(marker) {
-    departureMarker = marker;
+function setArriveMarker(map, marker) {
+    if (arriveMarker === undefined) {
+        arriveMarker = marker;
+    } else {
+        map.removeLayer(arriveMarker);
+        arriveMarker = marker;
+    }
 }
 function getLengthMarker() {
     return markers.length;
@@ -48,10 +63,10 @@ function calcDistKm(pointA, pointB) {
         Math.sqrt(
             (pointB.lat - pointA.lat) ** 2 + (pointB.lng - pointA.lng) ** 2
         ) * 100;
-    return parseFloat( distancia.toFixed(4));
+    return parseFloat(distancia.toFixed(4));
 }
 
-function encontraMaisProx(pointA,caminhos) {
+function encontraMaisProx(pointA, caminhos) {
     const pontos = caminhos.length;
     let pontoMaisProx;
     let menorDistancia = 50000;
@@ -65,7 +80,6 @@ function encontraMaisProx(pointA,caminhos) {
     }
     return [pontoMaisProx, menorDistancia];
 }
-
 
 function createPath(map, L, caminho) {
     const firstpolyline = new L.Polyline(caminho["path"], {
@@ -91,7 +105,7 @@ function updatePoint(e) {
         // criar o marcador
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
         // Limpa o marcador antigo e salva o novo
-        setInitialMarker(map, marker);
+        setDepartureMarker(map, marker);
         // Adciona o marcador ao mapa
         marker.addTo(map);
         // Pega coordenadas do ponto
@@ -99,42 +113,61 @@ function updatePoint(e) {
         // Adiciona ao mapa
         c.setCoordinates(e);
         // Limpa linhas antigas
-        clearLines(map);
+        clearDepartureLines(map);
         // Calcula novas distâncias e linhas
-        setLinesToPaths(pointA);
-
+        setLinesToPaths(pointA, "departure");
     } else if (getQPoints() === 1) {
+        // criar o marcador
         const marker = new L.marker([e.latlng.lat, e.latlng.lng]);
+        // Limpa o marcador antigo e salva o novo
+        setArriveMarker(map, marker);
+        // Adciona o marcador ao mapa
         marker.addTo(map);
-        setDepartureMarker(marker)
+        // Pega coordenadas do ponto
         pointB = new L.LatLng(e.latlng.lat, e.latlng.lng);
+        // Adiciona ao mapa
         c.setCoordinates(e);
-        console.log(c.setCoordinates(e), getQPoints());
+        // Limpa linhas antigas
+        clearArriveLines(map);
+        // Calcula novas distâncias e linhas
+        setLinesToPaths(pointB, "arrive");
         distanciaPontos = calcDistKm(pointA, pointB);
-        console.log(distanciaPontos);
-        setLinesToPaths(pointB);
     }
-    return [pointA, pointB]
+    return [pointA, pointB];
 }
 
-function setLinesToPaths(point) {
+function setLinesToPaths(point, typeLine) {
     let todosCaminhos = returnPaths();
-    document.getElementById("distancias").innerHTML=""
+    document.getElementById("distancias").innerHTML = "";
+    const distancias = [];
     for (let i = 0; i < Object.keys(todosCaminhos).length; i++) {
+        const item = todosCaminhos[Object.keys(todosCaminhos)[i]];
         let [pontoMaisProx, menorDistancia] = encontraMaisProx(
             point,
-            todosCaminhos[Object.keys(todosCaminhos)[i]].path
+            item.path
         );
-        let color = todosCaminhos[Object.keys(todosCaminhos)[i]].color;
         let firstpolyline = new L.Polyline([point, pontoMaisProx], {
-            color: color,
+            color: item.color,
             weight: 3,
             opacity: 0.5,
             smoothFactor: 1,
         });
-        updateLines(firstpolyline);
+        if (typeLine === "departure") {
+            updateDepartureLines(firstpolyline);
+        } else {
+            updateArriveLines(firstpolyline);
+        }
         firstpolyline.addTo(map);
-        document.getElementById("distancias").innerHTML+=`<p> ${color}: ${menorDistancia} km </p>`
+        distancias.push({
+            dist: menorDistancia,
+            nome: item.name,
+        });
     }
+    distancias.sort((a, b) => a.dist - b.dist);
+    distancias.forEach(
+        (e) =>
+            (document.getElementById(
+                "distancias"
+            ).innerHTML += `<p> ${e.dist} km : ${e.nome} </p>`)
+    );
 }
-

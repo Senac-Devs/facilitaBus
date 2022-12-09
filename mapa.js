@@ -104,7 +104,7 @@ let controleLocal = L.control
     })
     .addTo(map);
 
-let c = new L.Control.Coordinates()
+let c = new L.Control.Coordinates();
 c.addTo(map);
 
 marker.on("click");
